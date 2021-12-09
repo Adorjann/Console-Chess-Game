@@ -69,6 +69,37 @@ namespace Console_Chess_Game
             return retVal;
         }
 
+        public static List<Square> PossibleThreats(Piece thisPiece)
+        {
+            //checking if this.Piece's possible move is some enemy piece's possible move
+            //therefore it's a possible Threat
+
+            List<Square> retVal = new List<Square>();
+            List<Piece> allPieces = thisPiece.ChessBoard.alivePieces;
+            List<Square> allPossibleMoves = thisPiece.PossibleMoves;
+            
+            allPossibleMoves.ForEach(pMove => {
+
+                allPieces.ForEach(piece =>
+                {
+                    if (piece.Color != thisPiece.Color)
+                    {
+                        piece.PossibleMoves.ForEach(sq =>
+                        {
+                            if (sq.Equals(pMove))
+                            {
+                                retVal.Add(pMove);
+                            }
+
+                        });
+
+                    }
+                });
+            });
+
+            return retVal;
+        }
+
         private static List<Square> KingMovements(Piece king)
         {
             List<Square> allSquares = king.ChessBoard.allSquares;
@@ -159,7 +190,7 @@ namespace Console_Chess_Game
             return retVal;
         }
 
-       
+        
 
         private static List<Square> QueenMovements(Piece queen)
         {

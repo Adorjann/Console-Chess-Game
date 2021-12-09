@@ -60,7 +60,7 @@ namespace Console_Chess_Game
                         bool retVal = false;
                         while (!retVal)
                         {
-                            printCurrentThreats(this.Player1);
+                            //printCurrentThreats(this.Player1);
                             if (!retVal)
                             {
                               move =  moveInput(playing);
@@ -75,7 +75,7 @@ namespace Console_Chess_Game
                         bool retVal2 = false;
                         while (!retVal2)
                         {
-                            printCurrentThreats(this.Player2);
+                            //printCurrentThreats(this.Player2);
                             if (!retVal2)
                             {
                                 move = moveInput(playing);

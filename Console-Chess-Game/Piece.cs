@@ -12,12 +12,15 @@ namespace Console_Chess_Game
         private string name;
         private ChessBoard chessBoard;
         private Square currentPlacement;
+
+        //movementHistory
+        private Stack<string> movesHistory = new Stack<string>();
+
         List<Square> possibleMoves = new List<Square>();
         List<Square> possibleThreats = new List<Square> ();
         List<Piece> currentThreats = new List<Piece>();
 
-        //movementHistory
-        private Stack<string> movesHistory = new Stack<string>();
+        
 
         public string Color { get => color; set => color = value; }
         public string Name { get => name; set => name = value; }
@@ -52,6 +55,10 @@ namespace Console_Chess_Game
             this.CurrentThreats = Movements.Threats(this);
 
 
+        }
+        public void calcPossibleThreats()
+        {
+            this.PossibleThreats = Movements.PossibleThreats(this);
         }
 
         public override string ToString()

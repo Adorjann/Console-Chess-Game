@@ -1,0 +1,16 @@
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\bin\Debug\net5.0\Console-Chess-Game.exe
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\bin\Debug\net5.0\Console-Chess-Game.deps.json
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\bin\Debug\net5.0\Console-Chess-Game.runtimeconfig.json
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\bin\Debug\net5.0\Console-Chess-Game.runtimeconfig.dev.json
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\bin\Debug\net5.0\Console-Chess-Game.dll
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\bin\Debug\net5.0\ref\Console-Chess-Game.dll
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\bin\Debug\net5.0\Console-Chess-Game.pdb
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.csproj.AssemblyReference.cache
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.GeneratedMSBuildEditorConfig.editorconfig
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.AssemblyInfoInputs.cache
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.AssemblyInfo.cs
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.csproj.CoreCompileInputs.cache
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.dll
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\ref\Console-Chess-Game.dll
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.pdb
+D:\Program-Files\CS-Projects\Console-Chess-Game\Console-Chess-Game\Console-Chess-Game\obj\Debug\net5.0\Console-Chess-Game.genruntimeconfig.cache

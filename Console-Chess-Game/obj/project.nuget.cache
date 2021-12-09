@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "PcxMawCJd5opUCYYn51hGY1sW+bW4kt3YA7JDUbDVYo1E6fJE8qBaR4kk2KeMmJzfmdKiea5DpAEJcL1QkEvyw==",
+  "success": true,
+  "projectFilePath": "D:\\Program-Files\\CS-Projects\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Adorjan\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\5.0.12\\microsoft.netcore.app.host.win-x64.5.0.12.nupkg.sha512",
+    "C:\\Users\\Adorjan\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\5.0.0\\microsoft.aspnetcore.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Adorjan\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\5.0.0\\microsoft.windowsdesktop.app.ref.5.0.0.nupkg.sha512",
+    "C:\\Users\\Adorjan\\.nuget\\packages\\microsoft.netcore.app.ref\\5.0.0\\microsoft.netcore.app.ref.5.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}

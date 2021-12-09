@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v5.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v5.0": {
+      "Console-Chess-Game/1.0.0": {
+        "runtime": {
+          "Console-Chess-Game.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "Console-Chess-Game/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

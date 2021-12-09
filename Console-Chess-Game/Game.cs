@@ -46,7 +46,7 @@ namespace Console_Chess_Game
 
             while(playing != 0)
             {
-                //TestingPresentThePossibleMoves();
+                TestingPresentThePossibleMoves();
                 string move = null;
                 PrintTheChessBoard(chessBoard);
 
@@ -60,6 +60,7 @@ namespace Console_Chess_Game
                         bool retVal = false;
                         while (!retVal)
                         {
+                            printCurrentThreats(this.Player1);
                             if (!retVal)
                             {
                               move =  moveInput(playing);
@@ -74,6 +75,7 @@ namespace Console_Chess_Game
                         bool retVal2 = false;
                         while (!retVal2)
                         {
+                            printCurrentThreats(this.Player2);
                             if (!retVal2)
                             {
                                 move = moveInput(playing);
@@ -93,6 +95,24 @@ namespace Console_Chess_Game
                 
             }
         }
+
+        private void printCurrentThreats(Player player) 
+        {
+            player.AlivePieces.ForEach(piece => { 
+                    
+                piece.CalcCurrentThreats(); 
+                if(piece.CurrentThreats.Count > 0)
+                {
+                    Console.WriteLine($">> pay attention! <<");
+                    piece.CurrentThreats.ForEach(treath => {
+                        Console.WriteLine($"Your {piece.Name} on {piece.CurrentPlacement} is under threat from {treath.Name} on {treath.CurrentPlacement}");
+                    });
+
+                    
+                }
+            });
+        }
+
         public string moveInput(int playing)
         {
             PrintWhoIsPlaying(playing);

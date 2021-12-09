@@ -36,5 +36,11 @@ namespace Console_Chess_Game
         {
             return $"Square name: {this.name}";
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is Square square &&
+                   name == square.name;
+        }
     }
 }

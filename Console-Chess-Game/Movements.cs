@@ -41,6 +41,34 @@ namespace Console_Chess_Game
 
         }
 
+        public static List<Piece> Threats(Piece piece)
+        {
+            //checking if some enemy piece's possible move is this.Piece current position
+
+            List<Piece> retVal = new List<Piece>();
+            List<Piece> allPieces = piece.ChessBoard.alivePieces;
+
+            allPieces.ForEach(p =>
+            {
+                if (p.Color != piece.Color)
+                {
+                    p.PossibleMoves.ForEach(sq =>
+                    {
+                        if (sq.Equals(piece.CurrentPlacement))
+                        {
+                            retVal.Add(p);
+                        }
+
+                    });
+                    
+                }
+            });
+
+
+
+            return retVal;
+        }
+
         private static List<Square> KingMovements(Piece king)
         {
             List<Square> allSquares = king.ChessBoard.allSquares;
@@ -130,6 +158,8 @@ namespace Console_Chess_Game
 
             return retVal;
         }
+
+       
 
         private static List<Square> QueenMovements(Piece queen)
         {
@@ -289,7 +319,7 @@ namespace Console_Chess_Game
             char[] separatedName = knightPiece.CurrentPlacement.Name.ToCharArray(); //square name the piece is positioned at. example: a2 b3
             //current position
             int asciColumnPosition = Convert.ToInt32(separatedName[0]);
-            int rowPosition = separatedName[1] - '0'; // convert Char to int
+            int rowPosition = separatedName[1] - '0'; // convert Char number to int
 
             int iterCount = 0;
             for (int i = asciColumnPosition-2; i <= asciColumnPosition + 2; i++)

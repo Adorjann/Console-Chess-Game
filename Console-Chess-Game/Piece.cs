@@ -38,6 +38,7 @@ namespace Console_Chess_Game
        
         public void CalcPossibleMoves()
         {
+           //finding Squares a Piece can move to
             this.possibleMoves = Movements.Moving(this);
              
 
@@ -46,8 +47,11 @@ namespace Console_Chess_Game
 
 
         public void CalcCurrentThreats()
-        { 
-        
+        {
+            // checking if this.CurrentPlacement is some enemy Piece's possible move
+            this.CurrentThreats = Movements.Threats(this);
+
+
         }
 
         public override string ToString()

@@ -41,6 +41,11 @@ namespace Console_Chess_Game
             string[] squares = move.Split('>');
             
             Piece piece = this.alivePieces.Find(piece => piece.CurrentPlacement.Name == squares[0] ); //find the piece to be moved
+            if(piece == null)
+            {
+                Console.WriteLine($"*** There is no piece in square {squares[0]} ***");
+                return false;
+            }
             Square newSquarePosition = piece.ChessBoard.allSquares.Find(sq => sq.Name == squares[1] ); //find the new square position to move
 
             

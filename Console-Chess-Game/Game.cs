@@ -46,7 +46,7 @@ namespace Console_Chess_Game
 
             while(playing != 0)
             {
-                TestingPresentThePossibleMoves();
+                //TestingPresentThePossibleMoves();
                 string move = null;
                 PrintTheChessBoard(chessBoard);
 

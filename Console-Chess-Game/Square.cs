@@ -25,12 +25,7 @@ namespace Console_Chess_Game
         public string Name { get => name; }
         internal Piece PiecePlaced { get => piecePlaced; set => piecePlaced = value; }
 
-        public bool DoYouHavePiece()
-        {
-           if (piecePlaced != null)
-                return true;
-            return false;
-        }
+        
 
         public override string ToString()
         {

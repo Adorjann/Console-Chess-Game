@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Console_Chess_Game
@@ -28,7 +29,7 @@ namespace Console_Chess_Game
 
             this.chessBoard.alivePieces.ForEach(piece => { 
                 
-                piece.CalcPossibleMoves();
+                piece.MovesCalc.CalcPossibleMoves();
                 if(piece.Color == this.player1.Name)
                 {
                     this.player1.AlivePieces.Add(piece);
@@ -46,8 +47,8 @@ namespace Console_Chess_Game
 
             while(playing != 0)
             {
-                TestingPresentThePossibleMoves();
-                string move = null;
+                //TestingPresentThePossibleMoves();
+                
                 PrintTheChessBoard(chessBoard);
 
                 switch (playing)
@@ -57,31 +58,12 @@ namespace Console_Chess_Game
                         break;
 
                     case 1:
-                        bool retVal = false;
-                        while (!retVal)
-                        {
-                            //printCurrentThreats(this.Player1);
-                            if (!retVal)
-                            {
-                              move =  moveInput(playing);
-                            }
-                            retVal = this.Player1.MakeAMove(move);
-                            
-                        }
+                        PlayerPlaying(playing, this.Player1);
                         playing = 2;
                         break;
 
                     case 2:
-                        bool retVal2 = false;
-                        while (!retVal2)
-                        {
-                            //printCurrentThreats(this.Player2);
-                            if (!retVal2)
-                            {
-                                move = moveInput(playing);
-                            }
-                            retVal2 = this.Player2.MakeAMove(move);
-                        }
+                        PlayerPlaying(playing, this.Player2);
                         playing = 1;
                         break;
 
@@ -90,21 +72,83 @@ namespace Console_Chess_Game
                         break;
 
                 }
-                this.Player1.AlivePieces.ForEach(piece => { piece.CalcPossibleMoves(); });
-                this.Player1.AlivePieces.ForEach(piece => { piece.CalcPossibleMoves(); });
+                this.Player1.AlivePieces.ForEach(piece => { piece.MovesCalc.CalcPossibleMoves(); });
+                this.Player2.AlivePieces.ForEach(piece => { piece.MovesCalc.CalcPossibleMoves(); });
                 
             }
+        }
+
+        private void PlayerPlaying(int playing, Player player)
+        {
+            string move = null;
+            bool validMove = false;
+            while (!validMove)
+            {
+                if (IsCheck(player))
+                {
+                    Console.WriteLine($">> CHECK <<");
+                    Console.WriteLine($"\nYour King is Threatened! Save your king!");
+                    moveInputWhenChecked(playing, player);
+                    break;
+                }
+
+                if (!validMove)
+                {
+                    move = moveInput(playing);
+                }
+                validMove = player.MakeAMove(move);
+            }
+        }
+
+        private void moveInputWhenChecked(int playing,Player player)
+        {
+            bool kingSaved = false;
+            while (!kingSaved)
+            {
+                string move = moveInput(playing); //input
+                bool validMove = player.MakeAMove(move); //try the move
+                
+                if (validMove && !IsCheck(player))    // is check?
+                {
+                    kingSaved = true;
+                }
+                else
+                {
+                    PrintTheChessBoard(chessBoard);
+                    Thread.Sleep(1000);
+                    Console.WriteLine("\t>> Check is still ON <<");
+                    Thread.Sleep(1000);
+                    Console.WriteLine("\t>> Save your KING <<");
+                    Thread.Sleep(2000);
+                    reverseMove(move);   //back to the check position
+                    PrintTheChessBoard(chessBoard);
+                }
+            }
+        }
+
+        private void reverseMove(string move)
+        {
+            //reversing the piece to original square
+
+            string[] squares = move.Split('>');
+            Square originalSquare = chessBoard.allSquares.Find(sq => sq.Name == squares[0]);
+            Square newSquare = chessBoard.allSquares.Find(sq => sq.Name == squares[1]);
+
+            originalSquare.PiecePlaced = newSquare.PiecePlaced;
+            originalSquare.PiecePlaced.CurrentPlacement = originalSquare;
+            newSquare.PiecePlaced = null;
+
         }
 
         private void printCurrentThreats(Player player) 
         {
             player.AlivePieces.ForEach(piece => { 
                     
-                piece.CalcCurrentThreats(); 
-                if(piece.CurrentThreats.Count > 0)
+                piece.MovesCalc.CalcCurrentThreats(); 
+                if(piece.MovesCalc.CurrentThreats.Count > 0)
                 {
                     Console.WriteLine($">> pay attention! <<");
-                    piece.CurrentThreats.ForEach(treath => {
+                    piece.MovesCalc.CurrentThreats.ForEach(treath => {
                         Console.WriteLine($"Your {piece.Name} on {piece.CurrentPlacement} is under threat from {treath.Name} on {treath.CurrentPlacement}");
                     });
 
@@ -112,6 +156,20 @@ namespace Console_Chess_Game
                 }
             });
         }
+
+        private bool IsCheck(Player player)
+        {
+            bool retVal = false;
+            player.AlivePieces.ForEach(piece => {
+
+                piece.MovesCalc.CalcCurrentThreats();
+                if (piece.MovesCalc.CurrentThreats.Count > 0 && piece.Name == "K")
+                {
+                    retVal = true;
+                }
+            });
+            return retVal;
+        } 
 
         public string moveInput(int playing)
         {
@@ -124,15 +182,18 @@ namespace Console_Chess_Game
         {
             this.chessBoard.alivePieces.ForEach(piece =>
             {
-
+                piece.MovesCalc.CalcPossibleMoves();
                 
-                piece.CalcPossibleMoves();
-                Console.Write(piece + piece.CurrentPlacement.Name+"| ");
-                piece.PossibleMoves.ForEach(move =>
+                if (piece.MovesCalc.PossibleMoves.Count > 0)
                 {
-                   Console.Write(move.Name+", ");
-                });
-                Console.WriteLine();
+                    Console.Write(piece + piece.CurrentPlacement.Name + "| ");
+                    piece.MovesCalc.PossibleMoves.ForEach(move =>
+                    {
+                        Console.Write(move.Name + ", ");
+                    });
+                    Console.WriteLine();
+                }
+                
 
 
 
@@ -216,11 +277,8 @@ namespace Console_Chess_Game
         private void HowToPlay()
         {
             Console.WriteLine("\n\t How to move the Piece: ");
-            Console.WriteLine("\t you need to type: location where piece to be moved is located");
-            Console.WriteLine("\t you need to type: >> ");
-            Console.WriteLine("\t you need to type: Location where you want to move the piece to");
             Console.WriteLine("\n\t Example:  a2>a4 ");
-            Console.WriteLine("\t Meaning: I want too move the piece(pawn) from a1 to a4. ");
+            Console.WriteLine("\t Meaning: I want to move the piece from a2 to a4. ");
         }
     }
 }

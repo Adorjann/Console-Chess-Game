@@ -13,6 +13,8 @@ namespace Console_Chess_Game
         private List<Piece> deadPieces = new List<Piece>();
         private Game game;
 
+        private string checkPosition;
+
         public Player(string name)
         {
             this.name = name;
@@ -22,6 +24,7 @@ namespace Console_Chess_Game
         internal List<Piece> AlivePieces { get => alivePieces; set => alivePieces = value; }
         internal List<Piece> DeadPieces { get => deadPieces; set => deadPieces = value; }
         internal Game Game { get => game; set => game = value; }
+        public string CheckPosition { get => checkPosition; set => checkPosition = value; }
 
         public override string ToString()
         {
@@ -50,7 +53,7 @@ namespace Console_Chess_Game
 
             
 
-            if (!piece.PossibleMoves.Contains(newSquarePosition))
+            if (!piece.MovesCalc.PossibleMoves.Contains(newSquarePosition))
             {
                 Console.WriteLine("*** Move is against the rules ***");
                 return false;
@@ -80,9 +83,9 @@ namespace Console_Chess_Game
         private void takeThePiece(Piece pieceToTake)
         {
             pieceToTake.CurrentPlacement = null;
-            pieceToTake.PossibleMoves.Clear();
-            pieceToTake.PossibleThreats.Clear();
-            pieceToTake.CurrentThreats.Clear();
+            pieceToTake.MovesCalc.PossibleMoves.Clear();
+            pieceToTake.MovesCalc.PossibleThreats.Clear();
+            pieceToTake.MovesCalc.CurrentThreats.Clear();
 
             if (this.game.Player1.Equals(this))
             {

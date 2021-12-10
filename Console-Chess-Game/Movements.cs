@@ -52,7 +52,8 @@ namespace Console_Chess_Game
             {
                 if (p.Color != piece.Color)
                 {
-                    p.PossibleMoves.ForEach(sq =>
+                    p.MovesCalc.CalcPossibleMoves();
+                    p.MovesCalc.PossibleMoves.ForEach(sq =>
                     {
                         if (sq.Equals(piece.CurrentPlacement))
                         {
@@ -76,7 +77,8 @@ namespace Console_Chess_Game
 
             List<Square> retVal = new List<Square>();
             List<Piece> allPieces = thisPiece.ChessBoard.alivePieces;
-            List<Square> allPossibleMoves = thisPiece.PossibleMoves;
+            thisPiece.MovesCalc.CalcPossibleMoves();
+            List<Square> allPossibleMoves = thisPiece.MovesCalc.PossibleMoves;
             
             allPossibleMoves.ForEach(pMove => {
 
@@ -84,7 +86,8 @@ namespace Console_Chess_Game
                 {
                     if (piece.Color != thisPiece.Color)
                     {
-                        piece.PossibleMoves.ForEach(sq =>
+                        piece.MovesCalc.CalcPossibleMoves();
+                        piece.MovesCalc.PossibleMoves.ForEach(sq =>
                         {
                             if (sq.Equals(pMove))
                             {

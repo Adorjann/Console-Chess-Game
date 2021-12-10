@@ -113,6 +113,8 @@ namespace Console_Chess_Game
             int asciColumnPosition = Convert.ToInt32(separatedName[0]);
             int rowPosition = separatedName[1] - '0'; // convert Char to int
 
+            castling(king,retVal);
+
             //Top
             int topRow = rowPosition + 1;
             if (topRow <= 8)
@@ -193,7 +195,68 @@ namespace Console_Chess_Game
             return retVal;
         }
 
-        
+        private static void castling(Piece king, List<Square> retVal)
+        {
+            List<Square> allSquares = king.ChessBoard.allSquares;
+
+            
+            if (king.Color == "white")
+            {
+                Square f1 = FindSquareByName(allSquares, "f1");
+                Square g1 = FindSquareByName(allSquares, "g1");
+                Square h1 = FindSquareByName(allSquares,"h1");
+
+                if(f1.PiecePlaced == null &&
+                    g1.PiecePlaced == null && 
+                    h1.PiecePlaced.Name == "R" &&
+                    h1.PiecePlaced.MovesHistory.Count == 0 &&
+                    king.MovesHistory.Count == 0)
+                {
+                    retVal.Add(g1);
+                }
+                Square b1 = FindSquareByName(allSquares, "b1");
+                Square c1 = FindSquareByName(allSquares, "c1");
+                Square d1 = FindSquareByName(allSquares, "d1");
+                Square a1 = FindSquareByName(allSquares, "a1");
+                if (b1.PiecePlaced == null &&
+                    c1.PiecePlaced == null &&
+                    d1.PiecePlaced == null &&
+                    a1.PiecePlaced.Name == "R" &&
+                    a1.PiecePlaced.MovesHistory.Count == 0 &&
+                    king.MovesHistory.Count == 0)
+                {
+                    retVal.Add(c1);
+                }
+            }else
+            {
+                Square f8 = FindSquareByName(allSquares, "f8");
+                Square g8 = FindSquareByName(allSquares, "g8");
+                Square h8 = FindSquareByName(allSquares, "h8");
+
+                if (f8.PiecePlaced == null &&
+                    g8.PiecePlaced == null &&
+                    h8.PiecePlaced.Name == "R" &&
+                    h8.PiecePlaced.MovesHistory.Count == 0 &&
+                    king.MovesHistory.Count == 0)
+                {
+                    retVal.Add(g8);
+                }
+                Square b8 = FindSquareByName(allSquares, "b8");
+                Square c8 = FindSquareByName(allSquares, "c8");
+                Square d8 = FindSquareByName(allSquares, "d8");
+                Square a8 = FindSquareByName(allSquares, "a8");
+                if (b8.PiecePlaced == null &&
+                    c8.PiecePlaced == null &&
+                    d8.PiecePlaced == null &&
+                    a8.PiecePlaced.Name == "R" &&
+                    a8.PiecePlaced.MovesHistory.Count == 0 &&
+                    king.MovesHistory.Count == 0)
+                {
+                    retVal.Add(c8);
+                }
+            }
+
+        }
 
         private static List<Square> QueenMovements(Piece queen)
         {

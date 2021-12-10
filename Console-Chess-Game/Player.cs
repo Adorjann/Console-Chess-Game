@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Console_Chess_Game
@@ -76,8 +77,69 @@ namespace Console_Chess_Game
                 newSquarePosition.PiecePlaced = piece;
 
             }
+            specialMoves(piece, move);
 
             return true;
+        }
+
+        private void specialMoves(Piece piece,string move)
+        {
+            List<Square> allSquares = piece.ChessBoard.allSquares;
+
+            //Promotion
+            if ((piece.Name == "P") && (piece.CurrentPlacement.Name.EndsWith('8') || piece.CurrentPlacement.Name.EndsWith('1')))
+            {
+                Thread.Sleep(1000);
+                piece.Name = "Q";
+            }
+
+            if(piece.Name == "K" &&
+                move == "e1>c1")
+            {
+                Square a1 = allSquares.Find(sq => sq.Name == "a1");
+                Square d1 = allSquares.Find(sq => sq.Name == "d1");
+                Piece rock = a1.PiecePlaced;
+
+                a1.PiecePlaced = null;
+                d1.PiecePlaced = rock;
+                rock.CurrentPlacement = d1;
+            }
+            if (piece.Name == "K" &&
+                move == "e1>g1")
+            {
+                Square h1 = allSquares.Find(sq => sq.Name == "h1");
+                Square f1 = allSquares.Find(sq => sq.Name == "f1");
+                Piece rock = h1.PiecePlaced;
+
+                h1.PiecePlaced = null;
+                f1.PiecePlaced = rock;
+                rock.CurrentPlacement = f1;
+            }
+            if (piece.Name == "K" &&
+                move == "e8>g8")
+            {
+                Square h8 = allSquares.Find(sq => sq.Name == "h8");
+                Square f8 = allSquares.Find(sq => sq.Name == "f8");
+                Piece rock = h8.PiecePlaced;
+
+                h8.PiecePlaced = null;
+                f8.PiecePlaced = rock;
+                rock.CurrentPlacement = f8;
+            }
+            if (piece.Name == "K" &&
+                move == "e8>c8")
+            {
+                Square a8 = allSquares.Find(sq => sq.Name == "a8");
+                Square d8 = allSquares.Find(sq => sq.Name == "d8");
+                Piece rock = a8.PiecePlaced;
+
+                a8.PiecePlaced = null;
+                d8.PiecePlaced = rock;
+                rock.CurrentPlacement = d8;
+            }
+
+
+
         }
 
         private void takeThePiece(Piece pieceToTake)

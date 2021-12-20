@@ -21,6 +21,7 @@ namespace Console_Chess_Game
 
             game.AssignPlayersTheirPieces();
 
+
             game.StartTheGame();
         }
 

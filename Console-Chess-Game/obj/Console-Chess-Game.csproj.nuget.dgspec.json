@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\Program-Files\\CS-Projects\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj": {}
+    "D:\\Program-Files\\CS-Projects\\console_Chess_Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj": {}
   },
   "projects": {
-    "D:\\Program-Files\\CS-Projects\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj": {
+    "D:\\Program-Files\\CS-Projects\\console_Chess_Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\Program-Files\\CS-Projects\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj",
+        "projectUniqueName": "D:\\Program-Files\\CS-Projects\\console_Chess_Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj",
         "projectName": "Console-Chess-Game",
-        "projectPath": "D:\\Program-Files\\CS-Projects\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj",
+        "projectPath": "D:\\Program-Files\\CS-Projects\\console_Chess_Game\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game.csproj",
         "packagesPath": "C:\\Users\\Adorjan\\.nuget\\packages\\",
-        "outputPath": "D:\\Program-Files\\CS-Projects\\Console-Chess-Game\\Console-Chess-Game\\Console-Chess-Game\\obj\\",
+        "outputPath": "D:\\Program-Files\\CS-Projects\\console_Chess_Game\\Console-Chess-Game\\Console-Chess-Game\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Adorjan\\AppData\\Roaming\\NuGet\\NuGet.Config",

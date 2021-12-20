@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using Console_Chess_Game.Comparator;
 
 namespace Console_Chess_Game
 {
@@ -12,7 +13,7 @@ namespace Console_Chess_Game
         private Player player1;
         private Player player2;
         private ChessBoard chessBoard;
-
+        
         public Game(Player player1, Player player2, ChessBoard chessBoard)
         {
             this.Player1 = player1;
@@ -43,6 +44,8 @@ namespace Console_Chess_Game
         public void StartTheGame()
         {
             HowToPlay();
+            int playerOrComputer = this.playerOrComputer();
+
             int playing = 1;
 
             while(playing != 0)
@@ -59,10 +62,14 @@ namespace Console_Chess_Game
 
                     case 1:
                         PlayerPlaying(playing, this.Player1);
-                        playing = 2;
+                        playing = playerOrComputer;
                         break;
 
                     case 2:
+                        PlayerPlaying(playing, this.Player2);
+                        playing = 1;
+                        break;
+                    case 3:
                         PlayerPlaying(playing, this.Player2);
                         playing = 1;
                         break;
@@ -76,6 +83,18 @@ namespace Console_Chess_Game
                 this.Player2.AlivePieces.ForEach(piece => { piece.MovesCalc.CalcPossibleMoves(); });
                 
             }
+        }
+
+        private int playerOrComputer()
+        {
+            Console.WriteLine("Chose the game mode:");
+            Console.WriteLine("type [1] to play >> Player VS Player <<");
+            Console.WriteLine("type [2] to play >> Player VS Computer <<");
+            int input = Convert.ToInt32(Console.ReadLine());
+            if (input == 1) { input = 2; } //in the switch, Player2 is case 2
+            if (input == 2) { input = 3; } //in the switch, Computer is case 3
+
+            return input;
         }
 
         private void PlayerPlaying(int playing, Player player)
@@ -102,6 +121,8 @@ namespace Console_Chess_Game
 
         private void moveInputWhenChecked(int playing,Player player)
         {
+            //if the player is in check, he must play a move that's going to get him out of the check
+            // otherwise the move is reversed
             bool kingSaved = false;
             while (!kingSaved)
             {
@@ -174,10 +195,95 @@ namespace Console_Chess_Game
         public string moveInput(int playing)
         {
             PrintWhoIsPlaying(playing);
-            string move = Console.ReadLine();
+            string move = null;
+            if (playing == 3)
+            {
+                move = VerySuperSmartAIChessPlayer();
+                Console.WriteLine(move);
+            }
+            else
+            {
+                move = Console.ReadLine();
+            }
+            
+
+            
 
             return move;
         }
+        private string VerySuperSmartAIChessPlayer2()
+        {
+            //MiniMax algorithm with Alpha-Beta pruning
+
+            return "";
+        }
+
+        private string VerySuperSmartAIChessPlayer()
+            //random moves generator
+        {
+            List<Piece> alivePieces = this.player2.AlivePieces;
+            List<int> listIndexes = GetIndexes(alivePieces);
+            listIndexes.Sort(new RandomComparator());   
+
+            Square randomSquare = null;
+            Piece randomPiece = null;
+            while (randomSquare == null)
+            {
+
+                randomPiece = alivePieces[listIndexes[new Random().Next(0, listIndexes.Count)]]; 
+                randomPiece.MovesCalc.calcSafePossibleMove();
+                List<Square> randomPiecesSafeMoves = randomPiece.MovesCalc.SafePossibleMove;
+                if (randomPiecesSafeMoves.Count == 0) { continue; }
+
+                List<int> sqIndex = GetIndexes(randomPiecesSafeMoves);
+                sqIndex.Sort(new RandomComparator());
+                randomSquare = randomPiecesSafeMoves[sqIndex[new Random().Next(0, sqIndex.Count)]];
+
+
+            }
+            if(randomSquare == null)
+            {
+                //if there are no safe possible moves, play any possible move
+                for (int i = 0; i <= listIndexes.Count(); i++)
+                {
+                    randomPiece = alivePieces[listIndexes[i]];
+                    randomPiece.MovesCalc.CalcPossibleMoves();
+                    List<Square> randomPossibleMoves = randomPiece.MovesCalc.PossibleMoves;
+                    if (randomPossibleMoves.Count == 0) { continue; }
+
+                    List<int> sqIndex = GetIndexes(randomPossibleMoves);
+                    sqIndex.Sort(new RandomComparator());
+                    randomSquare = randomPossibleMoves[sqIndex[new Random().Next(0, sqIndex.Count)]];
+
+                    return $"{randomPiece.CurrentPlacement.Name}>{randomSquare.Name}";
+                }
+            }
+
+            return $"{randomPiece.CurrentPlacement.Name}>{randomSquare.Name}";
+
+        }
+
+
+        private List<int> GetIndexes(List<Piece> lista)
+        {
+            List<int> retVal = new();
+            for(int i = 0; i<lista.Count; i++)
+            {
+                retVal.Add(i);
+            }
+            return retVal;
+        }
+        private List<int> GetIndexes(List<Square> lista)
+        {
+            List<int> retVal = new();
+            for (int i = 0; i < lista.Count; i++)
+            {
+                retVal.Add(i);
+            }
+            return retVal;
+        }
+
+
         public void TestingPresentThePossibleMoves()
         {
             this.chessBoard.alivePieces.ForEach(piece =>
@@ -263,11 +369,11 @@ namespace Console_Chess_Game
         {
             if(playing == 1)
             {
-                Console.WriteLine("Player one is on the move! ");
+                Console.WriteLine("White is on the move! ");
             }
             else
             {
-                Console.WriteLine("Player two is on the move! ");
+                Console.WriteLine("Black is on the move! ");
             }
 
             

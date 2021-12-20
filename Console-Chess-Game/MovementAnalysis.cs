@@ -59,6 +59,9 @@ namespace Console_Chess_Game
 
         public void calcSafePossibleMove()
         {
+            CalcPossibleMoves();
+            calcPossibleThreats();
+
             this.possibleMoves.ForEach(pMove => {
 
                 if (!this.possibleThreats.Contains(pMove))

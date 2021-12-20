@@ -208,7 +208,7 @@ namespace Console_Chess_Game
 
                 if(f1.PiecePlaced == null &&
                     g1.PiecePlaced == null && 
-                    h1.PiecePlaced.Name == "R" &&
+                    (h1.PiecePlaced!= null && h1.PiecePlaced.Name == "R") &&
                     h1.PiecePlaced.MovesHistory.Count == 0 &&
                     king.MovesHistory.Count == 0)
                 {
@@ -221,7 +221,8 @@ namespace Console_Chess_Game
                 if (b1.PiecePlaced == null &&
                     c1.PiecePlaced == null &&
                     d1.PiecePlaced == null &&
-                    a1.PiecePlaced.Name == "R" &&
+                    (a1.PiecePlaced!= null && a1.PiecePlaced.Name == "R")
+                     &&
                     a1.PiecePlaced.MovesHistory.Count == 0 &&
                     king.MovesHistory.Count == 0)
                 {
@@ -235,7 +236,7 @@ namespace Console_Chess_Game
 
                 if (f8.PiecePlaced == null &&
                     g8.PiecePlaced == null &&
-                    h8.PiecePlaced.Name == "R" &&
+                    (h8.PiecePlaced != null && h8.PiecePlaced.Name == "R") &&
                     h8.PiecePlaced.MovesHistory.Count == 0 &&
                     king.MovesHistory.Count == 0)
                 {
@@ -248,7 +249,7 @@ namespace Console_Chess_Game
                 if (b8.PiecePlaced == null &&
                     c8.PiecePlaced == null &&
                     d8.PiecePlaced == null &&
-                    a8.PiecePlaced.Name == "R" &&
+                    (a8.PiecePlaced != null && a8.PiecePlaced.Name == "R") &&
                     a8.PiecePlaced.MovesHistory.Count == 0 &&
                     king.MovesHistory.Count == 0)
                 {

@@ -11,10 +11,10 @@ namespace Console_Chess_Game
     {
         private string name;
         private List<Piece> alivePieces = new List<Piece>();
-        private List<Piece> deadPieces = new List<Piece>();
+        private Stack<Piece> deadPieces = new Stack<Piece>();
         private Game game;
 
-        private string checkPosition;
+        private bool isCheck=false;
 
         public Player(string name)
         {
@@ -23,9 +23,9 @@ namespace Console_Chess_Game
 
         public string Name { get => name; set => name = value; }
         internal List<Piece> AlivePieces { get => alivePieces; set => alivePieces = value; }
-        internal List<Piece> DeadPieces { get => deadPieces; set => deadPieces = value; }
+        internal Stack<Piece> DeadPieces { get => deadPieces; set => deadPieces = value; }
         internal Game Game { get => game; set => game = value; }
-        public string CheckPosition { get => checkPosition; set => checkPosition = value; }
+        public bool IsCheck { get => isCheck; set => isCheck = value; }
 
         public override string ToString()
         {
@@ -87,12 +87,18 @@ namespace Console_Chess_Game
             List<Square> allSquares = piece.ChessBoard.allSquares;
 
             //Promotion
-            if ((piece.Name == "P") && (piece.CurrentPlacement.Name.EndsWith('8') || piece.CurrentPlacement.Name.EndsWith('1')))
+            if (!this.IsCheck)
             {
-                Thread.Sleep(1000);
-                piece.Name = "Q";
-            }
+                if ((piece.Name == "P") && (piece.CurrentPlacement.Name.EndsWith('8') || piece.CurrentPlacement.Name.EndsWith('1')))
+                {
 
+                    piece.Name = "Q";
+                }
+            }
+            
+
+
+            //castling
             if(piece.Name == "K" &&
                 move == "e1>c1")
             {
@@ -152,12 +158,12 @@ namespace Console_Chess_Game
             if (this.game.Player1.Equals(this))
             {
                 this.game.Player2.alivePieces.Remove(pieceToTake);
-                this.game.Player2.deadPieces.Add(pieceToTake);
+                this.game.Player2.DeadPieces.Push(pieceToTake);
             }
             else
             {
                 this.game.Player1.alivePieces.Remove(pieceToTake);
-                this.game.Player1.deadPieces.Add(pieceToTake);
+                this.game.Player1.DeadPieces.Push(pieceToTake);
             }
 
             this.game.ChessBoard.alivePieces.Remove(pieceToTake);

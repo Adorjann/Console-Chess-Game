@@ -87,12 +87,13 @@ namespace Console_Chess_Game
 
         private int playerOrComputer()
         {
-            Console.WriteLine("Chose the game mode:");
+            Console.WriteLine("\nChose the game mode:");
             Console.WriteLine("type [1] to play >> Player VS Player <<");
             Console.WriteLine("type [2] to play >> Player VS Computer <<");
             int input = Convert.ToInt32(Console.ReadLine());
-            if (input == 1) { input = 2; } //in the switch, Player2 is case 2
             if (input == 2) { input = 3; } //in the switch, Computer is case 3
+            if (input == 1) { input = 2; } //in the switch, Player2 is case 2
+            
 
             return input;
         }
@@ -115,41 +116,62 @@ namespace Console_Chess_Game
                 {
                     move = moveInput(playing);
                 }
-                validMove = player.MakeAMove(move);
+                validMove = player.MakeAMove(move); //valid move == legal move (by the rules)
             }
+        }
+        private Stack<Piece> OponentsDeadPieces(Player player)
+        {
+            if (player.Equals(this.player1))
+            {
+                return  this.Player2.DeadPieces;
+            }
+            else if (player.Equals(this.player2))
+            {
+                return  this.Player1.DeadPieces;
+            }
+
+            return null;
         }
 
         private void moveInputWhenChecked(int playing,Player player)
         {
             //if the player is in check, he must play a move that's going to get him out of the check
             // otherwise the move is reversed
+
+            Stack<Piece> enemyDeadPieces = OponentsDeadPieces(player);
+            int numDeadPiecesBeforeMove = enemyDeadPieces.Count;
+            int numDeadPiecesAfterMove = 0;
+
             bool kingSaved = false;
             while (!kingSaved)
             {
                 string move = moveInput(playing); //input
-                bool validMove = player.MakeAMove(move); //try the move
-                
+                bool validMove = player.MakeAMove(move); //make the move
+                numDeadPiecesAfterMove = enemyDeadPieces.Count;
+
                 if (validMove && !IsCheck(player))    // is check?
                 {
                     kingSaved = true;
                 }
-                else
+                else if (validMove && IsCheck(player))
                 {
-                    PrintTheChessBoard(chessBoard);
+                    //PrintTheChessBoard(chessBoard);
                     Thread.Sleep(1000);
                     Console.WriteLine("\t>> Check is still ON <<");
                     Thread.Sleep(1000);
                     Console.WriteLine("\t>> Save your KING <<");
                     Thread.Sleep(2000);
-                    reverseMove(move);   //back to the check position
-                    PrintTheChessBoard(chessBoard);
+                    reverseMove(player, move);                   
+                    
+                    //PrintTheChessBoard(chessBoard);
                 }
             }
         }
-
-        private void reverseMove(string move)
+        private void reverseMove(Player player,string move)
         {
-            //reversing the piece to original square
+            Stack<Piece> enemyDeadPieces = OponentsDeadPieces(player);
+            int numDeadPiecesBeforeMove = enemyDeadPieces.Count;
+            int numDeadPiecesAfterMove = 0;
 
             string[] squares = move.Split('>');
             Square originalSquare = chessBoard.allSquares.Find(sq => sq.Name == squares[0]);
@@ -157,9 +179,21 @@ namespace Console_Chess_Game
 
             originalSquare.PiecePlaced = newSquare.PiecePlaced;
             originalSquare.PiecePlaced.CurrentPlacement = originalSquare;
-            newSquare.PiecePlaced = null;
 
+            if (numDeadPiecesAfterMove > numDeadPiecesBeforeMove)
+            {
+                //if reversing a taken piece
+                newSquare.PiecePlaced = enemyDeadPieces.Pop();
+                newSquare.PiecePlaced.CurrentPlacement = newSquare;
+            }
+            else
+            {
+                //back to the check position
+                newSquare.PiecePlaced = null;
+            }
         }
+
+        
 
         private void printCurrentThreats(Player player) 
         {
@@ -186,9 +220,11 @@ namespace Console_Chess_Game
                 piece.MovesCalc.CalcCurrentThreats();
                 if (piece.MovesCalc.CurrentThreats.Count > 0 && piece.Name == "K")
                 {
+                    
                     retVal = true;
                 }
             });
+            player.IsCheck = retVal; 
             return retVal;
         } 
 
@@ -198,7 +234,8 @@ namespace Console_Chess_Game
             string move = null;
             if (playing == 3)
             {
-                move = VerySuperSmartAIChessPlayer();
+                //move = VerySuperSmartAIChessPlayer();  //Random moves Generator
+                move = MiniMaxRootNode(2,true);        // MinMax algorithm  with alpha-beta pruning
                 Console.WriteLine(move);
             }
             else
@@ -211,11 +248,91 @@ namespace Console_Chess_Game
 
             return move;
         }
-        private string VerySuperSmartAIChessPlayer2()
+        private List<string> PlayersMoves(Player player)
+        {
+            List<string> retVal = new();
+
+            player.AlivePieces.ForEach(piece => {
+                //possible moves are type Square
+                piece.MovesCalc.PossibleMoves.ForEach(move => {
+                    //formating the move like this ex: a1>a4
+                    retVal.Add($"{piece.CurrentPlacement.Name}>{move.Name}");
+                });
+            });
+            return retVal;
+        }
+
+        private string MiniMaxRootNode (int depth,bool isMaximisingPlayer)
         {
             //MiniMax algorithm with Alpha-Beta pruning
 
-            return "";
+            List<string> moves = PlayersMoves(this.Player2);
+            double bestMove = -9999;
+            string bestMoveFound = null;
+
+            for(int i =0; i< moves.Count; i++)
+            {
+                string move = moves[i];
+
+                this.Player2.MakeAMove(move);
+                double value = MiniMax(depth - 1, -10000, 10000, !isMaximisingPlayer);
+                reverseMove(this.Player2, move);
+                if(value >= bestMove)
+                {
+                    bestMove = value;
+                    bestMoveFound = move;
+                }
+
+            }
+            return bestMoveFound;
+
+
+
+        }
+
+        private double MiniMax(int depth,double alpha,double beta, bool isMaximisingPlayer)
+        {
+            if (depth == 0) { return -EvaluateBoard.GetBoardEvaluation(this.chessBoard); }
+
+            if (isMaximisingPlayer)
+            {
+                List<string> moves = PlayersMoves(this.Player2);
+
+                double bestMove = -9999;
+                for (var i = 0; i < moves.Count; i++)
+                {
+                    //console.log(newGameMoves[i]);
+                    string move = moves[1];
+                    this.Player2.MakeAMove(move);
+                    bestMove = Math.Max(bestMove, MiniMax(depth - 1, alpha, beta, !isMaximisingPlayer));
+                    reverseMove(this.Player2, move);
+                    alpha = Math.Max(alpha, bestMove);
+                    if (beta <= alpha)
+                    {
+                        return bestMove;
+                    }
+                }
+                return bestMove;
+            }
+            else
+            {
+                List<string> moves = PlayersMoves(this.Player1);
+                double bestMove = 9999;
+                for (var i = 0; i < moves.Count; i++)
+                {
+                    string move = moves[1];
+                    this.Player1.MakeAMove(move);
+                    //console.log(newGameMoves[i]);
+                    bestMove = Math.Min(bestMove, MiniMax(depth - 1, alpha, beta, !isMaximisingPlayer));
+                    reverseMove(this.Player1, move);
+                    beta = Math.Min(beta, bestMove);
+                    if (beta <= alpha)
+                    {
+                        return bestMove;
+                    }
+                }
+                return bestMove;
+            }
         }
 
         private string VerySuperSmartAIChessPlayer()

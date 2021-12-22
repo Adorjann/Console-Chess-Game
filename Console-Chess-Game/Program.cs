@@ -23,8 +23,15 @@ namespace Console_Chess_Game
 
 
             game.StartTheGame();
+
+
+
+
+
         }
 
+       
+        
 
         public static void testingData(ChessBoard theBoard)
         {
@@ -51,17 +58,34 @@ namespace Console_Chess_Game
             //    }
             //});
 
-            Square d3 = theBoard.allSquares.Find(square => square.Name == "d8");
-            Piece bishop1 = new Piece("white", "N", d3);
-            d3.PiecePlaced = bishop1;
-            bishop1.ChessBoard = theBoard;
-            theBoard.alivePieces.Add(bishop1);
+            Square square1 = theBoard.allSquares.Find(square => square.Name == "b1");
+            Piece piece1 = new Piece("white", "K", square1);
+            square1.PiecePlaced = piece1;
+            piece1.ChessBoard = theBoard;
+            theBoard.alivePieces.Add(piece1);
 
-            Square d7 = theBoard.allSquares.Find(square => square.Name == "d4");
-            Piece rock4 = new Piece("black", "N", d7);
-            d7.PiecePlaced = rock4;
-            rock4.ChessBoard = theBoard;
-            theBoard.alivePieces.Add(rock4);
+            Square square2 = theBoard.allSquares.Find(square => square.Name == "g3");
+            Piece piece2 = new Piece("black", "Q", square2);
+            square2.PiecePlaced = piece2;
+            piece2.ChessBoard = theBoard;
+            theBoard.alivePieces.Add(piece2);
+
+            Square square3 = theBoard.allSquares.Find(square => square.Name == "f7");
+            Piece piece3 = new Piece("white", "P", square3);
+            square3.PiecePlaced = piece3;
+            piece3.ChessBoard = theBoard;
+            theBoard.alivePieces.Add(piece3);
+
+            Square square4 = theBoard.allSquares.Find(square => square.Name == "d2");
+            Piece piece4 = new Piece("black", "P", square4);
+            square4.PiecePlaced = piece4;
+            piece4.ChessBoard = theBoard;
+            theBoard.alivePieces.Add(piece4);
+
+
+            Console.WriteLine("Expecting to write 3.0 on the next line: ");
+            Console.WriteLine();
+            Console.WriteLine(EvaluateBoard.CurrentPositionValue(piece2));
         }
     }
 }

@@ -15,7 +15,7 @@ namespace Console_Chess_Game
         private MovementAnalysis movesCalc;
 
         //movementHistory
-        private Stack<string> movesHistory = new Stack<string>();
+        private Stack<string> movesHistory = new ();
 
         public string Color { get => color; set => color = value; }
         public string Name { get => name; set => name = value; }
